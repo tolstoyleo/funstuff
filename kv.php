@@ -14,7 +14,7 @@ class KVStore
    * add a value to the store.
    *
    * @param string|null
-  * @param mixed
+   * @param mixed
    * @param mixed
    *
    * @return KVStore for method chaining
@@ -31,7 +31,7 @@ class KVStore
   *
   * @param string|null
   * @param mixed
-   *
+  *
   * @return mixed
   *
   * @throws NoKeyFoundException
