@@ -47,22 +47,22 @@ class KVStore
     $matchingKeys = [];
    
     // get the matching keys into their own array. if no time is requested, return the first matching key
-  foreach($this->store as $ts => $key) {
+    foreach($this->store as $ts => $key) {
       if (array_key_first($key) === $keyToGet) {
-    if (!$time) {
+        if (!$time) {
           return $this->store[$ts][array_key_first($key)];
         }
         $matchingKeys[$ts] = $this->store[$ts];
-   }
-  }
+      }
+    }
 
-  if (count($matchingKeys) === 0) {
-   throw new NoKeyFoundException('No suitable match was found', 404);
-   }
+    if (count($matchingKeys) === 0) {
+      throw new NoKeyFoundException('No suitable match was found', 404);
+    }
 
-  if (count($matchingKeys) === 1) {
-   return $matchingKeys[0][$keyToGet];
-  }
+    if (count($matchingKeys) === 1) {
+      return $matchingKeys[0][$keyToGet];
+    }
 
     // there are multiple matching keys, find the state of the key at the time requested
     ksort($matchingKeys);
