@@ -14,55 +14,55 @@ class KVStore
    * add a value to the store.
    *
    * @param string|null
-	 * @param mixed
+  * @param mixed
    * @param mixed
    *
    * @return KVStore for method chaining
    */
   public function add(string $time = null, $key, $val): KVStore {
-		
-		$this->store[strtotime($time)][$key] = $val;
+
+    $this->store[strtotime($time)][$key] = $val;
     
-		return $this;
+    return $this;
   }
 
-	/**
-	 * get a value from the store, if no time requested, return the first key
-	 *
-	 * @param string|null
-	 * @param mixed
+ /**
+  * get a value from the store, if no time requested, return the first key
+  *
+  * @param string|null
+  * @param mixed
    *
-	 * @return mixed
-	 *
-	 * @throws NoKeyFoundException
-	 */
+  * @return mixed
+  *
+  * @throws NoKeyFoundException
+  */
   public function get(string $time = null, $keyToGet) {
-		
+
     // return an exact match if exists
     if (isset($this->store[strtotime($time)][$keyToGet])) {
       return $this->store[strtotime($time)][$keyToGet];
     }
 
-		$length = count($this->store);
-		$matchingKeys = [];
+    $length = count($this->store);
+    $matchingKeys = [];
    
     // get the matching keys into their own array. if no time is requested, return the first matching key
-		foreach($this->store as $ts => $key) {
+  foreach($this->store as $ts => $key) {
       if (array_key_first($key) === $keyToGet) {
-				if (!$time) {
+    if (!$time) {
           return $this->store[$ts][array_key_first($key)];
         }
         $matchingKeys[$ts] = $this->store[$ts];
-			}
-		}
+   }
+  }
 
-		if (count($matchingKeys) === 0) {
-			throw new NoKeyFoundException('No suitable match was found', 404);
-  	}
+  if (count($matchingKeys) === 0) {
+   throw new NoKeyFoundException('No suitable match was found', 404);
+   }
 
-		if (count($matchingKeys) === 1) {
-			return $matchingKeys[0][$keyToGet];
-		}
+  if (count($matchingKeys) === 1) {
+   return $matchingKeys[0][$keyToGet];
+  }
 
     // there are multiple matching keys, find the state of the key at the time requested
     ksort($matchingKeys);
@@ -82,7 +82,7 @@ class KVStore
 
     return $this->store[$matchingTs][$keyToGet];
 
-	}
+ }
 
   /**
    * delete a value or many values from the store
